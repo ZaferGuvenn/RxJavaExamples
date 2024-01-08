@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.lafimsize.rxjavaexamples"
     compileSdk = 34
 
@@ -15,7 +18,13 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties=Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField("String","API_KEY","\"${properties.getProperty("API_KEY")}\"")
     }
 
     buildTypes {
@@ -42,8 +51,12 @@ android {
 
     buildFeatures{
         dataBinding=true
+
+        android.buildFeatures.buildConfig=true
     }
+
 }
+
 
 dependencies {
 
@@ -63,6 +76,8 @@ dependencies {
     //rxjava
     implementation ("io.reactivex.rxjava3:rxjava:3.1.8")
     implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+
 
 
     //kapt icin room compiler bunun yerine ksp kullanabilirsin ancak databinding için kapt şart.
